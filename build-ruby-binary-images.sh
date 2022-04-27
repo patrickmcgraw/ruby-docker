@@ -1,4 +1,4 @@
-#!/bin/bash
+#! bash5
 
 # Copyright 2017 Google Inc.
 #
@@ -19,7 +19,7 @@ set -e
 
 DIRNAME=$(dirname $0)
 
-OS_NAME=ubuntu16
+OS_NAME=ubuntu20
 RUNTIME_NAME=ruby
 PROJECT=
 IMAGE_TAG=
@@ -38,7 +38,7 @@ show_usage() {
   echo '  -a <tag>: use this base image tag (defaults to `staging`)' >&2
   echo '  -c <versions>: comma separated prebuilt ruby versions (defaults to prebuilt-versions.txt)' >&2
   echo '  -n <name>: set the runtime name (defaults to `ruby`)' >&2
-  echo '  -o <osname>: build against the given os base image (defaults to ubuntu16)' >&2
+  echo '  -o <osname>: build against the given os base image (defaults to ubuntu20)' >&2
   echo '  -p <project>: set the project (defaults to current gcloud config setting)' >&2
   echo '  -s: also tag new images as `staging`' >&2
   echo '  -t <tag>: set the new image tag (creates a new tag if not provided)' >&2
@@ -125,7 +125,7 @@ else
   echo "but NOT tagging them as staging."
 fi
 if [ -z "${AUTO_YES}" ]; then
-  read -r -p "Ok to build? [Y/n] " response
+  read -r -p "Ok to build? [Y/n] " resp
   response=${response,,}  # tolower
   if [[ "${response}" =~ ^(no|n)$ ]]; then
     echo "Aborting."

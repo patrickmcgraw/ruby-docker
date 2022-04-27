@@ -1,4 +1,4 @@
-#!/bin/bash
+#! bash5
 
 # Copyright 2017 Google Inc.
 #
@@ -21,16 +21,16 @@
 BASIC_RUBY_VERSION=2.7.5
 
 BUNDLER1_VERSION=1.17.3
-BUNDLER2_VERSION=2.1.4
-NODEJS_VERSION=14.16.1
-GCLOUD_VERSION=334.0.0
+BUNDLER2_VERSION=2.3.12
+NODEJS_VERSION=16.14.2
+GCLOUD_VERSION=383.0.0
 
 
 set -e
 
 DIRNAME=$(dirname $0)
 
-OS_NAME=ubuntu16
+OS_NAME=ubuntu20
 RUNTIME_NAME=ruby
 BASE_IMAGE_DOCKERFILE=default
 PROJECT=
@@ -43,7 +43,7 @@ show_usage() {
   echo 'Flags:' >&2
   echo '  -i: use prebuilt ruby to build base image' >&2
   echo '  -n <name>: set the runtime name (defaults to `ruby`)' >&2
-  echo '  -o <osname>: build against the given os base image (defaults to `ubuntu16`)' >&2
+  echo '  -o <osname>: build against the given os base image (defaults to `ubuntu20`)' >&2
   echo '  -p <project>: set the project (defaults to current gcloud config setting)' >&2
   echo '  -s: also tag new images as `staging`' >&2
   echo '  -t <tag>: set the new image tag (creates a new tag if not provided)' >&2

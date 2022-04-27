@@ -1,4 +1,4 @@
-#!/bin/bash
+#! bash5
 
 # Copyright 2017 Google Inc.
 #

@@ -16,13 +16,13 @@
 
 RUNTIME_PROJECT="gcp-runtimes"
 BUNDLER1_VERSION="1.17.3"
-BUNDLER2_VERSION="2.1.4"
+BUNDLER2_VERSION="2.3.12"
 DEFAULT_RUBY_VERSION="2.6.9"
-NODEJS_VERSION="14.16.1"
-GCLOUD_VERSION="334.0.0"
-OS_NAME="ubuntu16"
+NODEJS_VERSION="16.14.2"
+GCLOUD_VERSION="383.0.0"
+OS_NAME="ubuntu20"
 
-LOCAL_PREBUILT_RUBY_VERSIONS=["2.5.9", "2.6.9", "2.7.5", "3.0.3"]
+LOCAL_PREBUILT_RUBY_VERSIONS=["2.5.9", "2.6.9", "2.7.5", "3.0.3", "3.1.2"]
 LOCAL_PREBUILT_RUBY_IMAGE_BASE="ruby-prebuilt-"
 LOCAL_PREBUILT_RUBY_IMAGE_TAG="latest"
 RELEASED_PREBUILT_RUBY_VERSIONS=::File.readlines("ruby-pipeline/ruby-latest.yaml")
@@ -55,12 +55,12 @@ end.join(",")
 
 require "rake/testtask"
 
-desc "Build local docker image for ubuntu16 image"
-task "build:ubuntu16" do |t, args|
-  sh "docker build --pull --no-cache -t ruby-ubuntu16" \
+desc "Build local docker image for ubuntu20 image"
+task "build:ubuntu20" do |t, args|
+  sh "docker build --pull --no-cache -t ruby-ubuntu20" \
     " --build-arg bundler_version=#{BUNDLER2_VERSION}" \
     " --build-arg nodejs_version=#{NODEJS_VERSION}" \
-    " ruby-ubuntu16"
+    " ruby-ubuntu20"
 end
 
 desc "Build local docker image for current OS image"
