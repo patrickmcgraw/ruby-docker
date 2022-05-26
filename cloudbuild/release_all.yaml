@@ -31,10 +31,10 @@ steps:
 # Build ruby runtimes
 - name: alpine
   id: 'build_ruby_runtimes'
-  entrypoint: sh
-  args: |
-    cd /workspace
-    ./build-ruby-runtime-images.sh -p $PROJECT_ID -y
+  script:
+    - |
+      cd /workspace
+      ./build-ruby-runtime-images.sh -p $PROJECT_ID -y
   wait_for:
   - 'configured'
 
