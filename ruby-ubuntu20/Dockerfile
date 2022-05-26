@@ -42,6 +42,7 @@ ENV RBENV_ROOT=/opt/rbenv \
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y \
+    && apt-get dist-upgrade -y \
     && apt-get install -y -q --no-install-recommends \
         apt-utils \
         autoconf \
@@ -68,6 +69,7 @@ RUN apt-get update -y \
         libreadline6-dev \
         libsqlite3-dev \
         libssl-dev \
+        libvips \
         libxml2-dev \
         libxslt-dev \
         libyaml-dev \

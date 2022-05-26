@@ -20,7 +20,7 @@ steps:
   - 'config'
   - 'set'
   - 'app/cloud_build_timeout'
-  - '3600s'
+  - '7200s'
 
 #  ____    _    ____  _____   ____  _   _ _   _ _____ ___ __  __ _____
 # | __ )  / \  / ___|| ____| |  _ \| | | | \ | |_   _|_ _|  \/  | ____|
@@ -145,4 +145,4 @@ steps:
   - 'build_ruby_runtime_pipeline'
 
 
-timeout: 3600s
+timeout: 7200s
