@@ -13,7 +13,7 @@
 steps:
 
 # Configure build timeout
-- name: gcr.io/google.com/cloudsdktool/cloud-sdk:gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: gcloud
   id: configured
   args:
@@ -29,7 +29,7 @@ steps:
 # |____/ \___/|___|_____|____/
 
 # Build ruby runtimes
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'build_ruby_runtimes'
   entrypoint: 'bash'
   args:
@@ -41,7 +41,7 @@ steps:
   - 'configured'
 
 # Build exec-wrapper
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'build_exec_wrapper'
   entrypoint: sh
   args:
@@ -50,7 +50,7 @@ steps:
   - 'build_ruby_runtimes'
 
 # Build ruby binaries
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'build_ruby_binaries'
   entrypoint: sh
   args:
@@ -59,7 +59,7 @@ steps:
   - 'build_ruby_runtimes'
 
 # Build ruby runtime pipeline
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'build_ruby_runtime_pipeline'
   entrypoint: sh
   args:
@@ -74,7 +74,7 @@ steps:
 # |_| \_\_____|_____|_____/_/   \_\____/|_____|
 
 # Release exec-wrapper
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'release_exec_wrapper'
   entrypoint: sh
   args:
@@ -83,7 +83,7 @@ steps:
   - 'build_exec_wrapper'
 
 # Release ruby binaries
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'release_ruby_binaries'
   entrypoint: sh
   args:
@@ -92,7 +92,7 @@ steps:
   - 'build_ruby_binaries'
 
 # Release ruby runtimes
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'release_ruby_runtimes'
   entrypoint: sh
   args:
@@ -101,7 +101,7 @@ steps:
   - 'build_ruby_runtimes'
 
 # Release ruby runtime pipeline
-- name: gcloud
+- name: 'gcr.io/cloud-builders/gcloud'
   id: 'release_ruby_runtime_pipeline'
   entrypoint: sh
   args:
