@@ -27,8 +27,6 @@ steps:
   script: |
     #! /bin/sh
     ls -la
-    cd /workspace
-    ls -la
   wait_for:
   - 'configured'
 
@@ -42,8 +40,7 @@ steps:
 - name: alpine
   id: 'build_ruby_runtimes'
   script: |
-    #! /bin/sh
-    cd /workspace
+    chmod +x ./build-ruby-runtime-images.sh
     ./build-ruby-runtime-images.sh -p $PROJECT_ID -y
   wait_for:
   - 'listing'
