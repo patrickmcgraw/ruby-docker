@@ -33,7 +33,7 @@ steps:
   id: 'build_exec_wrapper'
   entrypoint: sh
   args:
-  - './build-app-engine-exec-wrapper.sh -p $PROJECT_ID -y'
+  - 'build-app-engine-exec-wrapper.sh -p $PROJECT_ID -y'
   wait_for:
   - 'configured'
 
@@ -42,7 +42,7 @@ steps:
   id: 'build_ruby_binaries'
   entrypoint: sh
   args:
-  - './build-ruby-binary-images.sh -p $PROJECT_ID -y'
+  - 'build-ruby-binary-images.sh -p $PROJECT_ID -y'
   wait_for:
   - 'configured'
 
@@ -51,7 +51,7 @@ steps:
   id: 'build_ruby_runtimes'
   entrypoint: sh
   args:
-  - './build-ruby-runtime-images.sh -p $PROJECT_ID -y'
+  - 'build-ruby-runtime-images.sh -p $PROJECT_ID -y'
   wait_for:
   - 'configured'
 
@@ -60,7 +60,7 @@ steps:
   id: 'build_ruby_runtime_pipeline'
   entrypoint: sh
   args:
-  - './build-ruby-runtime-pipeline.sh -p $PROJECT_ID -b app-vars_cloudbuild -y'
+  - 'build-ruby-runtime-pipeline.sh -p $PROJECT_ID -b app-vars_cloudbuild -y'
   wait_for:
   - 'configured'
 
@@ -75,36 +75,36 @@ steps:
   id: 'release_exec_wrapper'
   entrypoint: sh
   args:
-  - './release-app-engine-exec-wrapper.sh -p $PROJECT_ID -y'
+  - 'release-app-engine-exec-wrapper.sh -p $PROJECT_ID -y'
   wait_for:
-  - 'configured'
+  - 'build_exec_wrapper'
 
 # Release ruby binaries
 - name: alpine
   id: 'release_ruby_binaries'
   entrypoint: sh
   args:
-  - './release-ruby-binary-images.sh -p $PROJECT_ID -y'
+  - 'release-ruby-binary-images.sh -p $PROJECT_ID -y'
   wait_for:
-  - 'configured'
+  - 'build_ruby_binaries'
 
 # Release ruby runtimes
 - name: alpine
   id: 'release_ruby_runtimes'
   entrypoint: sh
   args:
-  - './release-ruby-runtime-images.sh -p $PROJECT_ID -y'
+  - 'release-ruby-runtime-images.sh -p $PROJECT_ID -y'
   wait_for:
-  - 'configured'
+  - 'build_ruby_runtimes'
 
 # Release ruby runtime pipeline
 - name: alpine
   id: 'release_ruby_runtime_pipeline'
   entrypoint: sh
   args:
-  - './release-ruby-runtime-pipeline.sh -p $PROJECT_ID -b app-vars_cloudbuild -y'
+  - 'release-ruby-runtime-pipeline.sh -p $PROJECT_ID -b app-vars_cloudbuild -y'
   wait_for:
-  - 'configured'
+  - 'build_ruby_runtime_pipeline'
 
 
 timeout: 3600s
