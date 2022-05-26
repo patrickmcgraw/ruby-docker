@@ -23,7 +23,7 @@ steps:
   - '3600s'
 
 - name: alpine
-  id: 'listin'
+  id: 'listing'
   script: |
     #! /bin/sh
     ls -la
