@@ -1,0 +1,110 @@
+#########
+##  Some explanation:
+# This file will build new versions of all ruby-docker related artifacts
+# for use by our applications when deploying to App Engine
+#####################################
+
+
+# This causes the build to take longer to boot
+# so the total time seems about the same. But leaving
+# this here so we remember the option exists.
+# options:
+#   machineType: 'N1_HIGHCPU_8'
+steps:
+
+# Configure build timeout
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+  entrypoint: gcloud
+  id: configured
+  args:
+  - 'config'
+  - 'set'
+  - 'app/cloud_build_timeout'
+  - '3600s'
+
+#  ____  _   _ ___ _     ____
+# | __ )| | | |_ _| |   |  _ \
+# |  _ \| | | || || |   | | | |
+# | |_) | |_| || || |___| |_| |
+# |____/ \___/|___|_____|____/
+
+# Build exec-wrapper
+- name: alpine
+  id: 'build_exec_wrapper'
+  entrypoint: sh
+  args:
+  - './build-app-engine-exec-wrapper.sh -p $PROJECT_ID -y'
+  wait_for:
+  - 'configured'
+
+# Build ruby binaries
+- name: alpine
+  id: 'build_ruby_binaries'
+  entrypoint: sh
+  args:
+  - './build-ruby-binary-images.sh -p $PROJECT_ID -y'
+  wait_for:
+  - 'configured'
+
+# Build ruby runtimes
+- name: alpine
+  id: 'build_ruby_runtimes'
+  entrypoint: sh
+  args:
+  - './build-ruby-runtime-images.sh -p $PROJECT_ID -y'
+  wait_for:
+  - 'configured'
+
+# Build ruby runtime pipeline
+- name: alpine
+  id: 'build_ruby_runtime_pipeline'
+  entrypoint: sh
+  args:
+  - './build-ruby-runtime-pipeline.sh -p $PROJECT_ID -b app-vars_cloudbuild -y'
+  wait_for:
+  - 'configured'
+
+#  ____  _____ _     _____    _    ____  _____
+# |  _ \| ____| |   | ____|  / \  / ___|| ____|
+# | |_) |  _| | |   |  _|   / _ \ \___ \|  _|
+# |  _ <| |___| |___| |___ / ___ \ ___) | |___
+# |_| \_\_____|_____|_____/_/   \_\____/|_____|
+
+# Release exec-wrapper
+- name: alpine
+  id: 'release_exec_wrapper'
+  entrypoint: sh
+  args:
+  - './release-app-engine-exec-wrapper.sh -p $PROJECT_ID -y'
+  wait_for:
+  - 'configured'
+
+# Release ruby binaries
+- name: alpine
+  id: 'release_ruby_binaries'
+  entrypoint: sh
+  args:
+  - './release-ruby-binary-images.sh -p $PROJECT_ID -y'
+  wait_for:
+  - 'configured'
+
+# Release ruby runtimes
+- name: alpine
+  id: 'release_ruby_runtimes'
+  entrypoint: sh
+  args:
+  - './release-ruby-runtime-images.sh -p $PROJECT_ID -y'
+  wait_for:
+  - 'configured'
+
+# Release ruby runtime pipeline
+- name: alpine
+  id: 'release_ruby_runtime_pipeline'
+  entrypoint: sh
+  args:
+  - './release-ruby-runtime-pipeline.sh -p $PROJECT_ID -b app-vars_cloudbuild -y'
+  wait_for:
+  - 'configured'
+
+
+timeout: 3600s
