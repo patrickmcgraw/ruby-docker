@@ -22,14 +22,6 @@ steps:
   - 'app/cloud_build_timeout'
   - '3600s'
 
-- name: alpine
-  id: 'listing'
-  script: |
-    #! /bin/sh
-    ls -la
-  wait_for:
-  - 'configured'
-
 #  ____  _   _ ___ _     ____
 # | __ )| | | |_ _| |   |  _ \
 # |  _ \| | | || || |   | | | |
@@ -40,10 +32,11 @@ steps:
 - name: alpine
   id: 'build_ruby_runtimes'
   script: |
+    ls -la
     chmod +x ./build-ruby-runtime-images.sh
     ./build-ruby-runtime-images.sh -p $PROJECT_ID -y
   wait_for:
-  - 'listing'
+  - 'configured'
 
 # Build exec-wrapper
 - name: alpine
