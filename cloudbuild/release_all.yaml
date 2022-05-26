@@ -28,6 +28,16 @@ steps:
 # | |_) | |_| || || |___| |_| |
 # |____/ \___/|___|_____|____/
 
+# Build ruby runtimes
+- name: alpine
+  id: 'build_ruby_runtimes'
+  entrypoint: sh
+  args: |
+    cd /workspace
+    ./build-ruby-runtime-images.sh -p $PROJECT_ID -y
+  wait_for:
+  - 'configured'
+
 # Build exec-wrapper
 - name: alpine
   id: 'build_exec_wrapper'
@@ -35,7 +45,7 @@ steps:
   args:
   - 'build-app-engine-exec-wrapper.sh -p $PROJECT_ID -y'
   wait_for:
-  - 'configured'
+  - 'build_ruby_runtimes'
 
 # Build ruby binaries
 - name: alpine
@@ -44,16 +54,7 @@ steps:
   args:
   - 'build-ruby-binary-images.sh -p $PROJECT_ID -y'
   wait_for:
-  - 'configured'
-
-# Build ruby runtimes
-- name: alpine
-  id: 'build_ruby_runtimes'
-  entrypoint: sh
-  args:
-  - 'build-ruby-runtime-images.sh -p $PROJECT_ID -y'
-  wait_for:
-  - 'configured'
+  - 'build_ruby_runtimes'
 
 # Build ruby runtime pipeline
 - name: alpine
@@ -62,7 +63,7 @@ steps:
   args:
   - 'build-ruby-runtime-pipeline.sh -p $PROJECT_ID -b app-vars_cloudbuild -y'
   wait_for:
-  - 'configured'
+  - 'build_ruby_runtimes'
 
 #  ____  _____ _     _____    _    ____  _____
 # |  _ \| ____| |   | ____|  / \  / ___|| ____|
